@@ -24,10 +24,6 @@ jobs:
         gcc play.c -o playres.exe -lwinmm
         dir
 
-    - name: Verify executable
-      run: |
-        .\playres.exe || echo "Executable ran (or failed), check manually"
-
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
