@@ -1,16 +1,20 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <stdint.h>
+#include <stdlib.h>
 
-#pragma comment(lib, "winmm.lib")
+int main(int argc, char *argv[]) {
+    if (argc != 3) {
+        return 1;
+    }
 
-int main() {
-    HMODULE hMod = LoadLibraryW(L"C:\\Windows\\System32\\imageres.dll");
+    const char *dllPath = argv[1];
+    int resId = atoi(argv[2]);
+
+    HMODULE hMod = LoadLibraryA(dllPath);
     if (!hMod) return 1;
 
-    // Recurso WAV 5080
-    uintptr_t resId = 5080;
-    PlaySoundW((LPCWSTR)resId, hMod, SND_RESOURCE | SND_SYNC);
+    PlaySoundW((LPCWSTR)(uintptr_t)resId, hMod, SND_RESOURCE | SND_SYNC);
 
     FreeLibrary(hMod);
     return 0;
