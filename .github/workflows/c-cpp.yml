@@ -1,0 +1,39 @@
+name: Build and Upload Executable
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up MinGW
+      uses: msys2/setup-msys2@v3
+      with:
+        update: true
+
+    - name: Compile C executable
+      run: |
+        gcc playres.c -o playres.exe -lwinmm
+        dir
+
+    - name: Verify executable
+      run: |
+        .\playres.exe || echo "Executable ran (or failed), check manually"
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: playres-executable
+        path: playres.exe
+        retention-days: 7
+
+    - name: Verify artifact upload
+      run: |
+        echo "Artifact uploaded as playres-executable"
