@@ -21,7 +21,7 @@ jobs:
 
     - name: Compile C executable
       run: |
-        gcc playres.c -o playres.exe -lwinmm
+        gcc play.c -o playres.exe -lwinmm
         dir
 
     - name: Verify executable
